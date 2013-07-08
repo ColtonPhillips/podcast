@@ -1,4 +1,8 @@
 #!/usr/bin/ruby
+# TODO: Understand it all 100% like a complete and utter bauss. 
+# TODO: Get my ego in check
+# TODO: De-SMBify it. change all the names to more coltony things. Chince-cast or some crap like that.
+# TODO: enjoy my simple and fun podcast
 require 'smbpod_util'
 
 
