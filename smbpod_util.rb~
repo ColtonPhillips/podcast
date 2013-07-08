@@ -1,51 +1,51 @@
 def capitalize(str)
     return str.gsub(/-/, " ").split(/\s+/).map { |s| s.capitalize()}.join(" ")
-end 
+end # function capitalize
 
 def baseURL()
     return "http://www.secretmoonbase.net"
-end 
+end # function baseURL
 
 def episodesURL()
     return "res/episodes"
-end 
+end # function baseURL
 
 def imagesURL()
     return "res/img"
-end 
+end # function imagesURL
 
 def logoImage()
     return "#{baseURL()}/#{imagesURL()}/secretmoonbase_logo.png"
-end 
+end # function logoImage
 
 def isEpisodeFile?(filename)
     return (filename =~ /^secretmoonbase_/)
-end 
+end # function isEpisodeFile?
 
 class SMBEpisode
     def initialize(fileName)
         self.fileName = fileName
-    end 
+    end # ctor
 
     def relativeURI()
         return "#{episodesURL()}/#{fileName}"
-    end 
+    end # function relativeURI
 
     def absoluteURI()
         return "#{baseURL}/#{episodesURL()}/#{fileName}"
-    end 
+    end # function absoluteURI
 
     def defaultTitle()
         if fileName() =~ /^secretmoonbase_\d+_(.*)\.\w+$/
             return capitalize($1)
         end
-    end 
+    end # function defaultTitle
 
     def episodeNumber()
         if fileName() =~ /^secretmoonbase_(\d+)_.*\.\w+$/
             return $1
         end
-    end 
+    end # function episodeNumber
 
     def formatRSSItem()
         return <<HERE
@@ -82,23 +82,23 @@ class SMBEpisode
             <enclosure url="#{absoluteURI()}" length="#{File::size(relativeURI())}" type="audio/mpeg" />
         </item>
 HERE
-    end 
+    end # function formatRSSItem
 
     def rssPubDate()
         return file().mtime().strftime("%a, %e %b %Y %H:%M:%S %z")
-    end 
+    end # function rssPubDate
 
     def formatHTMLLink()
         return "<a href=\"#{relativeURI()}\">Episode #{episodeNumber()} - #{defaultTitle()}</a>"
-    end 
+    end # function formatHTMLLink
 
     def file()
         return File::Stat.new(relativeURI())
-    end 
+    end # function file
 
     def durationSec()
         return (file().size() / 1000000) * 60
-    end 
+    end # function durationSec
 
     def durationStr()
         durSec = durationSec()
@@ -110,18 +110,18 @@ HERE
         durSec = durSec - (min * 60)
 
         return sprintf("%0d:%02d:%02d", hrs, min, durSec)
-    end 
+    end # function durationStr
 
     attr_accessor :fileName
-end 
+end # class SMBEpisode
 
 def allEpisodes()
     return Dir.entries(episodesURL()).find_all() { |f| isEpisodeFile?(f) }.sort()
-end 
+end # function allEpisodes
 
 def latestEpisode()
     return SMBEpisode.new(allEpisodes().last())
-end 
+end # function latestEpisode
 
 def eachEpisode()
     allEpisodes().each() { |f|
@@ -130,4 +130,4 @@ def eachEpisode()
             yield(it)
         end
     }
-end 
+end # function eachEpisode
