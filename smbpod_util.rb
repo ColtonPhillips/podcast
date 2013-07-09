@@ -3,7 +3,7 @@ def capitalize(str)
 end 
 
 def baseURL()
-    return "http://www.secretmoonbase.net"
+    return "http://www.coltonphillips.ca"
 end 
 
 def episodesURL()
@@ -15,14 +15,14 @@ def imagesURL()
 end 
 
 def logoImage()
-    return "#{baseURL()}/#{imagesURL()}/secretmoonbase_logo.png"
+    return "#{baseURL()}/#{imagesURL()}/cpp_podcast_logo.png"
 end 
 
 def isEpisodeFile?(filename)
-    return (filename =~ /^secretmoonbase_/)
+    return (filename =~ /^cpp_/)
 end 
 
-class SMBEpisode
+class CPPEpisode
     def initialize(fileName)
         self.fileName = fileName
     end 
@@ -36,13 +36,13 @@ class SMBEpisode
     end 
 
     def defaultTitle()
-        if fileName() =~ /^secretmoonbase_\d+_(.*)\.\w+$/
+        if fileName() =~ /^cpp_\d+_(.*)\.\w+$/
             return capitalize($1)
         end
     end 
 
     def episodeNumber()
-        if fileName() =~ /^secretmoonbase_(\d+)_.*\.\w+$/
+        if fileName() =~ /^cpp_(\d+)_.*\.\w+$/
             return $1
         end
     end 
@@ -72,12 +72,12 @@ class SMBEpisode
 
             <itunes:duration>#{durationStr()}</itunes:duration>
             
-            <author>operator@secretmoonbase.net (Secret Moon Base)</author>
+            <author>Colton Phillips</author>
 
             <media:content url="#{absoluteURI()}" fileSize="#{File::size(relativeURI())}" type="audio/mpeg" />
 
-            <itunes:author>Secret Moon Base</itunes:author>
-            <itunes:summary>A podcast ostensibly about video games</itunes:summary>
+            <itunes:author>Colton Phillips</itunes:author>
+            <itunes:summary>Wow! The Colton Phillips Podcast!</itunes:summary>
 
             <enclosure url="#{absoluteURI()}" length="#{File::size(relativeURI())}" type="audio/mpeg" />
         </item>
@@ -120,13 +120,13 @@ def allEpisodes()
 end 
 
 def latestEpisode()
-    return SMBEpisode.new(allEpisodes().last())
+    return CPPEpisode.new(allEpisodes().last())
 end 
 
 def eachEpisode()
     allEpisodes().each() { |f|
         if isEpisodeFile?(f)
-            it = SMBEpisode.new(f)
+            it = CPPEisode.new(f)
             yield(it)
         end
     }
